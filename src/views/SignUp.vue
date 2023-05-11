@@ -10,19 +10,33 @@
     </div>
     <v-container>
       <div>
-        <LoginForm />
+        <SignUpForm />
       </div>
     </v-container>
   </div>
 </template>
 
 <script lang="ts">
-import LoginForm from "@/components/LoginForm.vue";
+import SignUpForm from "@/components/SignUpForm.vue";
 
 export default {
   name: "login-page",
   components: {
-    LoginForm,
+    SignUpForm,
   },
 };
 </script>
+
+<style lang="scss">
+nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+}
+
+nav nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>

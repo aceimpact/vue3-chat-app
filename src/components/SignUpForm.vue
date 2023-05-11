@@ -1,11 +1,14 @@
 <template>
-  <div class="login-form">
+  <div class="signup-form">
     <v-container>
-      <h5 class="text-center">ログインページ</h5>
+      <h5 class="text-center">サインアップページ</h5>
       <hr />
-      <v-form @submit.prevent="onSubmit">
-        <div class="alert alert-danger" role="alert" v-if="hasError">{{ error }}</div>
-        <div class="mb-3">
+      <v-form @submit.prevent="singUp">
+        <v-col cols="12" class="mb-3">
+          <label for="userInput" class="form-label">ユーザー名</label>
+          <v-text-field v-model="state.name" variant="outlined" hide-details="auto"></v-text-field>
+        </v-col>
+        <v-col cols="12" class="mb-3">
           <label for="userInput" class="form-label">メールアドレス</label>
           <v-text-field
             v-model="state.email"
@@ -17,8 +20,8 @@
             :disabled="loading"
             required
           />
-        </div>
-        <div class="mb-3">
+        </v-col>
+        <v-col cols="12" class="mb-3">
           <label for="password" class="form-label">パスワード</label>
           <v-text-field
             id="password"
@@ -30,17 +33,8 @@
             :disabled="loading"
             required
           />
-        </div>
-        <v-btn
-          color="indigo"
-          :class="{ running: loading }"
-          :disabled="isValid"
-          @click="logIn"
-          :loading="state.logInIng"
-        >
-          ログイン
-          <div class="ld ld-ring ld-spin"></div>
-        </v-btn>
+        </v-col>
+        <v-btn color="indigo" :disabled="isValid" @click="singUp" :loading="state.creating"> サインアップ </v-btn>
       </v-form>
     </v-container>
   </div>
@@ -50,21 +44,23 @@
 import { defineComponent, reactive, computed } from "vue";
 import { useStore } from "vuex";
 
-import { auth } from "../plugins/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../plugins/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "login-form",
+  name: "signup-form",
 
   setup() {
     const store = useStore();
 
     const state = reactive({
+      name: "",
       email: "",
       password: "",
-      logInIng: false,
+      creating: false,
     });
 
     const error = computed(() => store.state.error);
@@ -79,23 +75,27 @@ export default defineComponent({
 
     const router = useRouter();
 
-    async function logIn(params: any) {
+    async function singUp(value: any) {
       try {
-        state.logInIng = true;
-        const { user } = await signInWithEmailAndPassword(auth, state.email, state.password);
-
-        router.push("/chat");
+        state.creating = true;
+        const { user } = await createUserWithEmailAndPassword(auth, state.email, state.password);
+        const docRef = doc(db, "users", user.uid);
+        await setDoc(docRef, {
+          name: state.name,
+          email: state.email,
+        });
+        router.push("/");
       } catch (error) {
         alert(`エラー ${error}`);
       } finally {
-        state.logInIng = false;
+        state.creating = false;
       }
     }
 
     return {
       state,
       isValid,
-      logIn,
+      singUp,
       loading,
       error,
       hasError,

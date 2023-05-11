@@ -18,13 +18,16 @@
 
 <script lang="ts">
 import { computed } from "vue";
-import { mapState } from "vuex";
+import { useStore } from "vuex";
 
 export default {
   name: "RoomList",
 
   setup() {
-    const { rooms, activeRoom } = mapState(["rooms", "activeRoom"]);
+    const store = useStore();
+
+    const rooms = computed(() => store.state.rooms);
+    const activeRoom = computed(() => store.state.activeRoom);
 
     return {
       rooms,

@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { mapState } from "vuex";
+import { useStore } from "vuex";
 
 import ChatNavBar from "@/components/ChatNavBar.vue";
 import RoomList from "@/components/RoomList.vue";
@@ -51,7 +51,9 @@ export default defineComponent({
   },
 
   setup() {
-    const { loading } = mapState(["loading"]);
+    const store = useStore();
+
+    const loading = computed(() => store.state.loading);
 
     return {
       loading,

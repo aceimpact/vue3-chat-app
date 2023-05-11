@@ -1,6 +1,6 @@
 <template>
   <div class="message-form ld-over">
-    <small class="text-muted">@{{ user.username }}</small>
+    <small class="text-muted">{{ user.username }}</small>
     <form @submit.prevent="onSubmit" class="ld-over" :class="{ running: sending }">
       <div class="ld ld-ring ld-spin"></div>
       <div class="alert alert-danger" role="alert" v-if="hasError">
