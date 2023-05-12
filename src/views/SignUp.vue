@@ -1,13 +1,5 @@
 <template>
-  <div class="login">
-    <div class="jumbotron bg-info text-white p-5">
-      <h1>Vue.js Chat</h1>
-
-      <nav>
-        <router-link to="/chat">Home</router-link> | <router-link to="/signup">サインアップ</router-link> |
-        <router-link to="/">ログイン</router-link>
-      </nav>
-    </div>
+  <div>
     <v-container>
       <div>
         <SignUpForm />
@@ -16,15 +8,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import SignUpForm from "@/components/SignUpForm.vue";
-
-export default {
-  name: "login-page",
-  components: {
-    SignUpForm,
-  },
-};
 </script>
 
 <style lang="scss">

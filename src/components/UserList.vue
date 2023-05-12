@@ -1,44 +1,55 @@
 <template>
-  <div class="user-list">
-    <h4>Members</h4>
-    <hr />
-    <ul class="list-group">
-      <li class="list-group-item" v-for="user in users" :key="user.username">
-        {{ user.name }}
-        <span v-if="user.presence" :class="['badge', statusColor(user.presence)]" aria-label="status">
-          {{ user.presence }}
-        </span>
-      </li>
-    </ul>
-  </div>
+  <v-card>
+    <v-list>
+      <v-list-item v-for="(item, index) in filterUsers" :key="index" @click="goToRoom(item.id)">
+        <v-list-item-title class="text-start">{{ item.name }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 
-<script lang="ts">
-import { computed } from "vue";
-import { useStore } from "vuex";
+<script setup lang="ts">
+import { computed, reactive, onMounted, defineProps, defineEmits } from "vue";
 
-export default {
-  name: "UserList",
+import { db } from "../plugins/firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
-  setup() {
-    const store = useStore();
+const props = defineProps({
+  userId: String,
+});
 
-    const loading = computed(() => store.state.loading);
-    const users = computed(() => store.state.users);
+interface Emits {
+  (e: "goToChatRoom", value: string): void;
+}
 
-    const statusColor = (status) => {
-      console.log(status);
-      return status == "online" ? "bg-success" : "bg-warning";
-    };
+const emit = defineEmits<Emits>();
 
-    return {
-      loading,
-      users,
-      statusColor,
-    };
-  },
-  methods: {
-    // その他のメソッドがあればここに記述します
-  },
+const state = reactive({
+  users: [],
+});
+
+const filterUsers = computed(() => {
+  return state.users.filter((item) => item.id !== props);
+});
+
+const goToRoom = (status: string) => {
+  emit("goToChatRoom", status);
 };
+
+function setUsers() {
+  const collectionRef = collection(db, "users");
+  onSnapshot(collectionRef, (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      state.users.push({
+        id: doc.id,
+        name: doc.data().name,
+        email: doc.data().email,
+      });
+    });
+  });
+}
+
+onMounted(async () => {
+  setUsers();
+});
 </script>
