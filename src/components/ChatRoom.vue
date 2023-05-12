@@ -1,11 +1,11 @@
 <template>
   <v-card
-    class="d-flex flex-column position-relative p-3"
+    class="d-flex flex-column position-relative pa-3"
     elevation="0"
     height="calc(100vh - 200px)"
     max-height="calc(100vh - 200px)"
   >
-    <ul v-if="talkUserId" class="d-flex flex-column px-0 px-2">
+    <ul v-if="talkUserId" class="d-flex flex-column px-3">
       <li
         v-for="item in state.messages"
         :key="item.id"

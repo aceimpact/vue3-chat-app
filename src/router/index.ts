@@ -6,10 +6,6 @@ import ChatDashboard from "@/views/ChatDashboard.vue";
 import { auth } from "../plugins/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
-// @/pages/admin/SignIn/ChangePassword.vue
-
-// src/views/Login.vue
-
 const routes = [
   {
     path: "/",
