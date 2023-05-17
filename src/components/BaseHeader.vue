@@ -43,9 +43,9 @@ import { signOut } from "firebase/auth";
 import router from "@/router/index";
 
 const state = reactive({
-  isLogin: false,
-  userName: "",
-  loading: false,
+  isLogin: false as boolean,
+  userName: "" as any,
+  loading: false as boolean,
 });
 
 // HomeView.vueからlogout関数をコピペ

@@ -48,16 +48,16 @@ import { db } from "../plugins/firebase";
 const props = defineProps(["userId", "userName", "talkUserId"]);
 
 const state = reactive({
-  sendMessageText: "",
-  messages: [],
-  roomId: null,
+  sendMessageText: "" as String,
+  messages: [] as Array<any>,
+  roomId: null as any,
 });
 
 async function setMessages() {
   const collectionRef = collection(db, "rooms");
   const q = query(collectionRef, where("user_ids", "array-contains", props.userId));
   const rooms = await getDocs(q);
-  const roomIds = [];
+  const roomIds: Array<any> = [];
 
   rooms.forEach((doc) => {
     if (!doc?.id) return;
@@ -80,7 +80,7 @@ async function setMessages() {
   onSnapshot(messageQ, (querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      if (state.messages.some((item) => item.id === doc.id)) return;
+      if (state.messages.some((item: any) => item.id === doc.id)) return;
       state.messages.push({
         id: doc.id,
         message: data.message,

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import LoginPage from "@/views/Login.vue";
 import SignUpPage from "@/views/SignUp.vue";
 import ChatDashboard from "@/views/ChatDashboard.vue";
@@ -9,7 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 const routes = [
   {
     path: "/",
-    name: "login-page",
+    name: "login",
     component: LoginPage,
   },
   {
@@ -39,7 +40,7 @@ router.beforeEach(async (to) => {
   const isRequiresAuth = to.name === "chat";
   if (isRequiresAuth && !isLogin) {
     // ログインしていない場合、/loginページに遷移させる
-    return { name: "login-page" };
+    return { name: "login" };
   }
 });
 

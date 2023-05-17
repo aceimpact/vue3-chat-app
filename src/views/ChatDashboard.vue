@@ -27,10 +27,6 @@ import ChatRoom from "@/components/ChatRoom.vue";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../plugins/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { signOut } from "firebase/auth";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 const state = reactive({
   userId: "",
@@ -51,8 +47,7 @@ async function getUser() {
   });
 }
 
-function goToChatRoom(selectUserId) {
-  console.log(selectUserId);
+function goToChatRoom(selectUserId: any) {
   state.selectUserId = selectUserId;
   state.isShowChatRoom = true;
 }

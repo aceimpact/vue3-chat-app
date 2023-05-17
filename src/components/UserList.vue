@@ -25,11 +25,11 @@ interface Emits {
 const emit = defineEmits<Emits>();
 
 const state = reactive({
-  users: [],
+  users: [] as Array<any>,
 });
 
 const filterUsers = computed(() => {
-  return state.users.filter((item) => item.id !== props);
+  return state.users.filter((item: any) => item.id !== props.userId);
 });
 
 const goToRoom = (status: string) => {
