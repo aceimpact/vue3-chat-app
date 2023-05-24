@@ -48,7 +48,6 @@ const state = reactive({
   loading: false as boolean,
 });
 
-// HomeView.vueからlogout関数をコピペ
 async function logout() {
   try {
     state.loading = true;

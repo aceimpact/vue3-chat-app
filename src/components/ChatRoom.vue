@@ -45,7 +45,13 @@ import { reactive, onMounted, defineProps, watch } from "vue";
 import { query, where, onSnapshot, collection, getDocs, addDoc, orderBy } from "firebase/firestore";
 import { db } from "../plugins/firebase";
 
-const props = defineProps(["userId", "userName", "talkUserId"]);
+interface Props {
+  userId: String;
+  userName: String;
+  talkUserId: String;
+}
+
+const props = defineProps<Props>();
 
 const state = reactive({
   sendMessageText: "" as String,

@@ -14,9 +14,11 @@ import { computed, reactive, onMounted, defineProps, defineEmits } from "vue";
 import { db } from "../plugins/firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 
-const props = defineProps({
-  userId: String,
-});
+interface Props {
+  userId: String;
+}
+
+const props = defineProps<Props>();
 
 interface Emits {
   (e: "goToChatRoom", value: string): void;
