@@ -16,7 +16,6 @@
     "firebase": "^9.21.0",
     "moment": "^2.29.4",
     "vue": "^3.2.47",
-    "vue-chat-scroll": "^1.4.0",
     "vue-router": "^4.1.6",
     "vuetify": "^3.2.3",
     "vuex": "^4.1.0",
